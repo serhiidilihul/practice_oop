@@ -84,7 +84,7 @@ class PaymentProcessor:
         if self.total <= self.price:
             print('Payment successful!')
         else:
-            print('Insufficient funds!')
+            raise Exception('Payment failed')
         
     # Simulates payment processing.
 

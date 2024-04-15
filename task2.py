@@ -28,7 +28,6 @@ class Dish:
         self.name = name
         self.category = category
         self.price = price
-    # Represents a dish with attributes like name, category, price, etc.
 
 class Menu:
     def __init__(self, name):
@@ -65,7 +64,6 @@ class Menu:
                 f.write(dish.name + '\n')
                 f.write(dish.category + '\n')
                 f.write(str(dish.price) + '\n')
-    # Manages the restaurant's menu: display, search, add, and update dishes.
 
 class Order:
     def __init__(self, status='done'):
@@ -85,8 +83,6 @@ class Order:
                 f.write(item.name + '\n')
                 f.write(item.category + '\n')
                 f.write(str(item.price) + '\n')
-
-    # Represents a user's order with items, status, and payment details.
 
 class User:
     def __init__(self, name, wallet):

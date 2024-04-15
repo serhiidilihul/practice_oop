@@ -31,19 +31,24 @@ class Dish:
     # Represents a dish with attributes like name, category, price, etc.
 
 class Menu:
+    def __init__(self, name):
+        self.name = name
+        self.dishes = []
+
     def show(self):
         print(self.name)
-        print(self.category)
-        print(self.price)
+        for dish in self.dishes:
+            print(dish.name, dish.category, dish.price)
 
     def search(self, query):
-        if query in any(self.name, self.category, self.price):
-            print(self.name, self.category, self.price)
+        found = []
+        for dish in self.dishes:
+            if query in [dish.name, dish.category, str(dish.price)]:
+                found.append(dish)
+        return found
 
     def add(self, dish):
-        self.name = dish.name
-        self.category = dish.category
-        self.price = dish.price
+        self.dishes.append(dish)
 
     def update(self, dish):
         option = input('Enter issue you want to update. A number expected: ')
@@ -54,11 +59,12 @@ class Menu:
         elif option == '3':
             dish.price = input('Please enter new dish price: ')
 
-    def save_dish(dish):
+    def save_dishes(self):
         with open('dishes.txt', 'a') as f:
-            f.write(dish.name + '\n')
-            f.write(dish.category + '\n')
-            f.write(dish.price + '\n')
+            for dish in self.dishes:
+                f.write(dish.name + '\n')
+                f.write(dish.category + '\n')
+                f.write(str(dish.price) + '\n')
     # Manages the restaurant's menu: display, search, add, and update dishes.
 
 class Order:
@@ -72,46 +78,68 @@ class Order:
             total += item.price
         return total
     
-    def save_order(self, order):
+    def save_order(self):
         with open('orders.txt', 'a') as f:
             f.write(self.status + '\n')
             for item in self.items:
                 f.write(item.name + '\n')
                 f.write(item.category + '\n')
-                f.write(item.price + '\n')
+                f.write(str(item.price) + '\n')
 
     # Represents a user's order with items, status, and payment details.
 
 class User:
-    def __init__(self, name, price):
+    def __init__(self, name, wallet):
         self.name = name
         self.orders = []
-        self.price = price
+        self.wallet = wallet
 
     def save_user_data(self):
-        with open('users.txt', 'a') as f:
-            f.write(self.user + '\n')
-            f.write(self.price + '\n')
+        with open('users.txt', 'a+') as f:
+            f.write(self.name + '\n')
+            f.write(str(self.wallet) + '\n')
 
 class PaymentProcessor:
     def __init__(self, user, order):
         self.user = user.name
-        self.price = user.price
-        self.total = order.total
+        self.wallet = user.wallet
+        self.total = order.total()
 
     def pay(self):
-        if self.total <= self.price:
+        if self.total <= self.wallet:
             print('Payment successful!')
         else:
             raise Exception('Payment failed')
-        
-    # Simulates payment processing.
 
-# Exceptions for error handling
+if __name__ == "__main__":
+    dish1 = Dish("Spaghetti Carbonara", "Pasta", 12.99)
+    dish2 = Dish("Margherita Pizza", "Pizza", 10.99)
+    dish3 = Dish("Caesar Salad", "Salad", 8.99)
 
-# File management module for data storage
+    menu = Menu("Restaurant Menu")
+    menu.add(dish1)
+    menu.add(dish2)
+    menu.add(dish3)
 
-# Test modules for each component
+    menu.show()
 
+    search_result = menu.search("Pizza")
+    if search_result:
+        print("Search Result:")
+        for dish in search_result:
+            print(dish.name, dish.category, dish.price)
+    else:
+        print("No matching dish found.")
 
+    user = User("John Doe", 50)
+
+    order = Order()
+    order.items = [dish1, dish2]
+
+    user.save_user_data()
+    order.save_order()
+    payment_processor = PaymentProcessor(user, order)
+    payment_processor.pay()
+
+    user.save_user_data()
     

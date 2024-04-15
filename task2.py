@@ -53,6 +53,12 @@ class Menu:
             dish.category = input('Please enter new dish category: ')
         elif option == '3':
             dish.price = input('Please enter new dish price: ')
+
+    def save_dish(dish):
+        with open('dishes.txt', 'a') as f:
+            f.write(dish.name + '\n')
+            f.write(dish.category + '\n')
+            f.write(dish.price + '\n')
     # Manages the restaurant's menu: display, search, add, and update dishes.
 
 class Order:
@@ -65,6 +71,14 @@ class Order:
         for item in self.items:
             total += item.price
         return total
+    
+    def save_order(self, order):
+        with open('orders.txt', 'a') as f:
+            f.write(self.status + '\n')
+            for item in self.items:
+                f.write(item.name + '\n')
+                f.write(item.category + '\n')
+                f.write(item.price + '\n')
 
     # Represents a user's order with items, status, and payment details.
 
@@ -73,6 +87,11 @@ class User:
         self.name = name
         self.orders = []
         self.price = price
+
+    def save_user_data(self):
+        with open('users.txt', 'a') as f:
+            f.write(self.user + '\n')
+            f.write(self.price + '\n')
 
 class PaymentProcessor:
     def __init__(self, user, order):

@@ -22,3 +22,77 @@
 # 	Написання модульних тестів для перевірки кожної частини системи, включаючи логіку замовлення,
 # платежі та управління меню.
 # ! Як результат потрібно надіслати посилання на репозиторії.
+
+class Dish:
+    def __init__(self, name, category, price):
+        self.name = name
+        self.category = category
+        self.price = price
+    # Represents a dish with attributes like name, category, price, etc.
+
+class Menu:
+    def show(self):
+        print(self.name)
+        print(self.category)
+        print(self.price)
+
+    def search(self, query):
+        if query in any(self.name, self.category, self.price):
+            print(self.name, self.category, self.price)
+
+    def add(self, dish):
+        self.name = dish.name
+        self.category = dish.category
+        self.price = dish.price
+
+    def update(self, dish):
+        option = input('Enter issue you want to update. A number expected: ')
+        if option == '1':
+            dish.name = input('Please enter new dish name: ')
+        elif option == '2':
+            dish.category = input('Please enter new dish category: ')
+        elif option == '3':
+            dish.price = input('Please enter new dish price: ')
+    # Manages the restaurant's menu: display, search, add, and update dishes.
+
+class Order:
+    def __init__(self, status='done'):
+        self.items = []
+        self.status = status
+
+    def total(self):
+        total = 0
+        for item in self.items:
+            total += item.price
+        return total
+
+    # Represents a user's order with items, status, and payment details.
+
+class User:
+    def __init__(self, name, price):
+        self.name = name
+        self.orders = []
+        self.price = price
+
+class PaymentProcessor:
+    def __init__(self, user, order):
+        self.user = user.name
+        self.price = user.price
+        self.total = order.total
+
+    def pay(self):
+        if self.total <= self.price:
+            print('Payment successful!')
+        else:
+            print('Insufficient funds!')
+        
+    # Simulates payment processing.
+
+# Exceptions for error handling
+
+# File management module for data storage
+
+# Test modules for each component
+
+
+    
